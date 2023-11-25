@@ -1,0 +1,65 @@
+# Crear el tablero de 8x8
+Matriz R[8][8]
+
+# Función para dibujar un rectángulo en el tablero
+Función drawRect(x1, y1, x2, y2):
+    Llenar con color blanco
+    Dibujar rectángulo en posición (x1, y1, 100, 100)
+    Llenar con color negro
+    Dibujar rectángulo en posición (x2, y2, 100, 100)
+
+# Función para verificar si es posible colocar una reina en la posición (fila, columna)
+Función esPosible(fila, columna):
+    # Verificar si hay una reina en la misma columna
+    Para i desde 0 hasta fila:
+        Si R[i][columna] es 1:
+            Retornar Falso  # No se puede colocar una reina
+
+    # Verificar la diagonal superior izquierda
+    Para i desde fila, j desde columna mientras i >= 0 y j >= 0:
+        Si R[i][j] es 1:
+            Retornar Falso  # No se puede colocar una reina
+        Disminuir i y j
+
+    # Verificar la diagonal superior derecha
+    Para i desde fila, j desde columna mientras i >= 0 y j < 8:
+        Si R[i][j] es 1:
+            Retornar Falso  # No se puede colocar una reina
+        Disminuir i y aumentar j
+
+    Retornar Verdadero  # Se puede colocar una reina
+
+# Función para colocar reinas en el tablero
+Función reinas(fila):
+    Si fila >= 8:
+        Retornar Verdadero  # Todas las reinas han sido colocadas
+
+    Para i desde 0 hasta 8:
+        Si esPosible(fila, i):
+            R[fila][i] = 1  # Colocar una reina en la posición (fila, i)
+            Si reinas(fila + 1):
+                Retornar Verdadero  # Se colocaron las reinas restantes con éxito
+            R[fila][i] = 0  # Retroceder si no se puede colocar una reina
+
+    Retornar Falso  # No se pudo colocar una reina en la fila actual
+
+# Configurar la ventana y llamar a la función reinas
+void setup():
+    Tamaño de la ventana(800, 800)
+    reinas(0)
+
+# Dibujar las reinas en la ventana
+void draw():
+    int x = 0
+    int y = 0
+
+    Para cada i desde 0 hasta 8:
+        Para cada j desde 0 hasta 8:
+            Si R[i][j] es 1:
+                Llenar con color rosa
+                Dibujar círculo en posición (x + 50, y + 50, 80)
+
+            Incrementar x en 100
+
+        Establecer x en 0
+        Incrementar y en 100
